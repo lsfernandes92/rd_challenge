@@ -1,24 +1,81 @@
 require 'byebug'
 
 class CustomerSuccessBalancing
-  def initialize(customers_success, customers, away_customers_success)
-    @customers_success = customers_success
+  DRAW_CASE_VALUE = 0
+
+  def initialize(managers, customers, absent_managers)
+    @managers = managers
     @customers = customers
-    @away_customers_success = away_customers_success
+    @absent_managers = absent_managers
+
+    @managers = sorted_customers_success_by_score
+    @customers = sorted_customers_by_score
   end
 
-  # Returns the ID of the customer success with most customers
   def execute
-    # TODO:
-    # => Drop dos gerente away da array de gerentes disponiveis
-    # => Ordenar array de gerentes disponiveis
-    # => Para cada gerente do array de gerentes disponveis verificar
-    # se tem algum cliente no nível menor ou igual ao dele
-    #   => Se tiver atribuir a ele
-    # => Repetir o passo 3 até chegar o ultimo gerente disponivel do
-    # array de gerente disponiveis
-    @away_customers_success.each do |cs|
-      @customers_success.delete_at(cs - 1)
+    check_managers_availability
+    check_most_rated_manager
+  end
+
+  private
+
+  def check_most_rated_manager
+    preffered_manager = 1
+    customers_attended = []
+    max_customers_attended = 0
+
+    @managers.each do |manager_id, manager_score|
+      manager_clients = 0
+
+      @customers.except(*customers_attended).each do |customer_id, customer_score|
+        if valid_customer_for_manager?(manager_score, customer_score)
+          customers_attended << customer_id
+          manager_clients += 1
+        end
+      end
+
+      if most_rated_manager?(manager_clients, max_customers_attended)
+        max_customers_attended = manager_clients
+        preffered_manager = manager_id
+      elsif draw_case?(manager_clients, max_customers_attended)
+        preffered_manager = DRAW_CASE_VALUE
+      end
     end
+
+    preffered_manager
+  end
+
+  private
+
+  def valid_customer_for_manager?(manager_score, customer_score)
+    manager_score >= customer_score
+  end
+
+  def most_rated_manager?(clients, max_customers_attended)
+    clients > max_customers_attended
+  end
+
+  def draw_case?(clients, max_customers_attended)
+    clients == max_customers_attended
+  end
+
+  def check_managers_availability
+    @managers = @managers.except(*@absent_managers)
+  end
+
+  def sorted_customers_success_by_score
+    flatten_customers_success.sort_by(&:last).to_h
+  end
+
+  def sorted_customers_by_score
+    flatten_customers.sort_by(&:last).to_h
+  end
+
+  def flatten_customers_success
+    @managers.map { |hash| hash.values }
+  end
+
+  def flatten_customers
+    @customers.map { |hash| hash.values }
   end
 end

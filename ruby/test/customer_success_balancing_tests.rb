@@ -1,8 +1,11 @@
 require 'minitest/autorun'
-require_relative '../lib/customer_success_balancing'
 require 'timeout'
+require_relative '../lib/customer_success_balancing'
+require_relative '../helpers/score_build_helper'
 
 class CustomerSuccessBalancingTests < Minitest::Test
+  include ScoreBuildHelper
+
   def test_scenario_one
     balancer = CustomerSuccessBalancing.new(
       build_scores([60, 20, 95, 75]),
@@ -65,13 +68,5 @@ class CustomerSuccessBalancingTests < Minitest::Test
       [4, 5, 6]
     )
     assert_equal 3, balancer.execute
-  end
-
-  private
-
-  def build_scores(scores)
-    scores.map.with_index do |score, index|
-      { id: index + 1, score: score }
-    end
   end
 end

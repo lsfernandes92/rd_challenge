@@ -1,15 +1,18 @@
 require 'byebug'
+require_relative '../helpers/score_build_helper'
 
 class CustomerSuccessBalancing
   DRAW_CASE_VALUE = 0
+
+  include ScoreBuildHelper
 
   def initialize(managers, customers, absent_managers)
     @managers = managers
     @customers = customers
     @absent_managers = absent_managers
 
-    @managers = sorted_customers_success_by_score
-    @customers = sorted_customers_by_score
+    @managers = sort_by_score(@managers)
+    @customers = sort_by_score(@customers)
   end
 
   def execute
@@ -61,21 +64,5 @@ class CustomerSuccessBalancing
 
   def check_managers_availability
     @managers = @managers.except(*@absent_managers)
-  end
-
-  def sorted_customers_success_by_score
-    flatten_customers_success.sort_by(&:last).to_h
-  end
-
-  def sorted_customers_by_score
-    flatten_customers.sort_by(&:last).to_h
-  end
-
-  def flatten_customers_success
-    @managers.map { |hash| hash.values }
-  end
-
-  def flatten_customers
-    @customers.map { |hash| hash.values }
   end
 end

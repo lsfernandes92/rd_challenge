@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'byebug'
 require_relative '../helpers/score_build_helper'
 require_relative 'manager'
@@ -34,8 +36,6 @@ class CustomerSuccessBalancing
 
     RateManagers.new(working_managers).most_rated
   end
-
-  private
 
   def check_managers_availability
     @managers = @managers.except(*@absent_managers)

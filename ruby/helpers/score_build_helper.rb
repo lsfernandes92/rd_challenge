@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ScoreBuildHelper
   def build_scores(scores)
     scores.map.with_index do |score, index|
@@ -12,6 +14,6 @@ module ScoreBuildHelper
   private
 
   def flatten_collection(colletion)
-    colletion.map { |hash| hash.values }
+    colletion.map(&:values)
   end
 end

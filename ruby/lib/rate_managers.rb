@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RateManagers
   DRAW_VALUE = 0
 

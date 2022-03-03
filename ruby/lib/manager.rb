@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Manager
   attr_reader :id, :score, :customers_count
 

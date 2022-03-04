@@ -6,6 +6,7 @@ require_relative 'manager'
 require_relative 'rate_managers'
 require_relative './validators/manager_validator'
 require_relative './validators/customer_validator'
+require_relative './validators/absence_validator'
 
 class CustomerSuccessBalancing
   include ScoreBuildHelper
@@ -22,6 +23,7 @@ class CustomerSuccessBalancing
   def execute
     validate_managers
     validate_customers
+    validate_absents
     check_managers_availability
     check_most_rated_manager
   end
@@ -34,6 +36,10 @@ class CustomerSuccessBalancing
 
   def validate_customers
     CustomerValidator.new(@customers).validate
+  end
+
+  def validate_absents
+    AbsenceValidator.new(@managers, @absent_managers).validate
   end
 
   def check_most_rated_manager

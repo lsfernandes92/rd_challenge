@@ -71,4 +71,64 @@ class CustomerSuccessBalancingTests < Minitest::Test
     )
     assert_equal 3, balancer.execute
   end
+
+  def test_when_has_duplicate_level_managers
+    balancer = CustomerSuccessBalancing.new(
+      build_scores([100, 2, 3, 3, 4, 5]),
+      build_scores([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]),
+      []
+    )
+    exception = assert_raises(RuntimeError) { balancer.execute }
+    assert_match /It must not have managers with the same level!/, exception.message
+  end
+
+  def test_when_managers_input_exceeds_the_count_999
+    balancer = CustomerSuccessBalancing.new(
+      build_scores(Array(1..1000)),
+      build_scores([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]),
+      []
+    )
+    exception = assert_raises(RuntimeError) { balancer.execute }
+    assert_match /The managers collection exceeds the limit of 999 managers/, exception.message
+  end
+
+  def test_manager_id_input_min_limit
+    balancer = CustomerSuccessBalancing.new(
+      [{id: 0, score: 2}],
+      build_scores([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]),
+      []
+    )
+    exception = assert_raises(RuntimeError) { balancer.execute }
+    assert_match /id must be between 1 and 999/, exception.message
+  end
+
+  def test_manager_id_input_max_limit
+    balancer = CustomerSuccessBalancing.new(
+      [{id: 1000, score: 2}],
+      build_scores([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]),
+      []
+    )
+    exception = assert_raises(RuntimeError) { balancer.execute }
+    assert_match /id must be between 1 and 999/, exception.message
+  end
+
+  def test_manager_score_input_min_limit
+    balancer = CustomerSuccessBalancing.new(
+      [{id: 1, score: 0}],
+      build_scores([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]),
+      []
+    )
+    exception = assert_raises(RuntimeError) { balancer.execute }
+    assert_match /score must be between 1 and 999/, exception.message
+  end
+
+  def test_manager_score_input_max_limit
+    balancer = CustomerSuccessBalancing.new(
+      [{id: 1, score: 10000}],
+      build_scores([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]),
+      []
+    )
+    exception = assert_raises(RuntimeError) { balancer.execute }
+    assert_match /score must be between 1 and 999/, exception.message
+  end
 end

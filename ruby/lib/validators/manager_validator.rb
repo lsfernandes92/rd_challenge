@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../contracts/manager_contract'
 
 class ManagerValidator
@@ -32,7 +34,7 @@ class ManagerValidator
   def validates_ids_and_scores
     ids = @managers.keys
     scores = @managers.values
-    result = contract.(ids: ids, scores: scores)
+    result = contract.call(ids: ids, scores: scores)
     raise "The managers collection fail with the following: #{result.errors.to_h}" if result.failure?
   end
 

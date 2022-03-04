@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AbsenceValidator
   def initialize(managers, absent_managers)
     @managers = managers

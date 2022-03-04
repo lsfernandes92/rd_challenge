@@ -79,7 +79,7 @@ class CustomerSuccessBalancingTests < Minitest::Test
       []
     )
     exception = assert_raises(RuntimeError) { balancer.execute }
-    assert_match /It must not have managers with the same level!/, exception.message
+    assert_match(/It must not have managers with the same level!/, exception.message)
   end
 
   def test_when_managers_input_exceeds_the_count_999
@@ -89,97 +89,97 @@ class CustomerSuccessBalancingTests < Minitest::Test
       []
     )
     exception = assert_raises(RuntimeError) { balancer.execute }
-    assert_match /The managers collection exceeds the limit of 999 managers/, exception.message
+    assert_match(/The managers collection exceeds the limit of 999 managers/, exception.message)
   end
 
   def test_manager_id_input_min_limit
     balancer = CustomerSuccessBalancing.new(
-      [{id: 0, score: 2}],
+      [{ id: 0, score: 2 }],
       build_scores([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]),
       []
     )
     exception = assert_raises(RuntimeError) { balancer.execute }
-    assert_match /id must be between 1 and 999/, exception.message
+    assert_match(/id must be between 1 and 999/, exception.message)
   end
 
   def test_manager_id_input_max_limit
     balancer = CustomerSuccessBalancing.new(
-      [{id: 1000, score: 2}],
+      [{ id: 1000, score: 2 }],
       build_scores([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]),
       []
     )
     exception = assert_raises(RuntimeError) { balancer.execute }
-    assert_match /id must be between 1 and 999/, exception.message
+    assert_match(/id must be between 1 and 999/, exception.message)
   end
 
   def test_manager_score_input_min_limit
     balancer = CustomerSuccessBalancing.new(
-      [{id: 1, score: 0}],
+      [{ id: 1, score: 0 }],
       build_scores([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]),
       []
     )
     exception = assert_raises(RuntimeError) { balancer.execute }
-    assert_match /score must be between 1 and 999/, exception.message
+    assert_match(/score must be between 1 and 999/, exception.message)
   end
 
   def test_manager_score_input_max_limit
     balancer = CustomerSuccessBalancing.new(
-      [{id: 1, score: 10000}],
+      [{ id: 1, score: 10_000 }],
       build_scores([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]),
       []
     )
     exception = assert_raises(RuntimeError) { balancer.execute }
-    assert_match /score must be between 1 and 999/, exception.message
+    assert_match(/score must be between 1 and 999/, exception.message)
   end
 
   def test_when_customers_input_exceeds_the_count_999999
     balancer = CustomerSuccessBalancing.new(
       build_scores([10, 20]),
-      build_scores(Array(1..1000000)),
+      build_scores(Array(1..1_000_000)),
       []
     )
     exception = assert_raises(RuntimeError) { balancer.execute }
-    assert_match /The customers collection exceeds the limit of 999999 customers/, exception.message
+    assert_match(/The customers collection exceeds the limit of 999999 customers/, exception.message)
   end
 
   def test_customer_id_input_min_limit
     balancer = CustomerSuccessBalancing.new(
       build_scores([10, 20]),
-      [{id: 0, score: 2}],
+      [{ id: 0, score: 2 }],
       []
     )
     exception = assert_raises(RuntimeError) { balancer.execute }
-    assert_match /id must be between 1 and 999999/, exception.message
+    assert_match(/id must be between 1 and 999999/, exception.message)
   end
 
   def test_customer_id_input_max_limit
     balancer = CustomerSuccessBalancing.new(
       build_scores([10, 20]),
-      [{id: 1000000, score: 2}],
+      [{ id: 1_000_000, score: 2 }],
       []
     )
     exception = assert_raises(RuntimeError) { balancer.execute }
-    assert_match /id must be between 1 and 999999/, exception.message
+    assert_match(/id must be between 1 and 999999/, exception.message)
   end
 
   def test_customer_score_input_min_limit
     balancer = CustomerSuccessBalancing.new(
       build_scores([10, 20]),
-      [{id: 1, score: 0}],
+      [{ id: 1, score: 0 }],
       []
     )
     exception = assert_raises(RuntimeError) { balancer.execute }
-    assert_match /score must be between 1 and 99999/, exception.message
+    assert_match(/score must be between 1 and 99999/, exception.message)
   end
 
   def test_customer_score_input_max_limit
     balancer = CustomerSuccessBalancing.new(
       build_scores([10, 20]),
-      [{id: 1, score: 100000}],
+      [{ id: 1, score: 100_000 }],
       []
     )
     exception = assert_raises(RuntimeError) { balancer.execute }
-    assert_match /score must be between 1 and 99999/, exception.message
+    assert_match(/score must be between 1 and 99999/, exception.message)
   end
 
   def test_when_absents_exceeds_limit
@@ -189,6 +189,6 @@ class CustomerSuccessBalancingTests < Minitest::Test
       [1, 2, 3]
     )
     exception = assert_raises(RuntimeError) { balancer.execute }
-    assert_match /The managers absents is more than expected/, exception.message
+    assert_match(/The managers absents is more than expected/, exception.message)
   end
 end

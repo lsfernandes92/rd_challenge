@@ -29,6 +29,6 @@ class AbsenceValidatorTests < Minitest::Test
       [1, 2, 3]
     )
     exception = assert_raises(RuntimeError) { validator.validate }
-    assert_match /The managers absents is more than expected/, exception.message
+    assert_match(/The managers absents is more than expected/, exception.message)
   end
 end

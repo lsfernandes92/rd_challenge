@@ -3,6 +3,6 @@
 source 'https://rubygems.org'
 
 gem 'byebug'
+gem 'dry-validation'
 gem 'minitest'
 gem 'rubocop'
-gem 'dry-validation'

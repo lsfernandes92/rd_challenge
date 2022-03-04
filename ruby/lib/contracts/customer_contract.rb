@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/validation'
 
 class CustomerContract < Dry::Validation::Contract
@@ -12,10 +14,10 @@ class CustomerContract < Dry::Validation::Contract
   private
 
   def id_in_range?(value)
-    (value < 1 || value > 999999)
+    (value < 1 || value > 999_999)
   end
 
   def score_in_range?(value)
-    (value < 1 || value > 99999)
+    (value < 1 || value > 99_999)
   end
 end

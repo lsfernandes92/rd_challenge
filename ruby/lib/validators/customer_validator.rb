@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../contracts/customer_contract'
 
 class CustomerValidator
@@ -17,13 +19,13 @@ class CustomerValidator
   end
 
   def exceeds_collection_count?
-    @customers.count > 999999
+    @customers.count > 999_999
   end
 
   def validates_ids_and_scores
     ids = @customers.keys
     scores = @customers.values
-    result = contract.(ids: ids, scores: scores)
+    result = contract.call(ids: ids, scores: scores)
     raise "The customers collection fail with the following: #{result.errors.to_h}" if result.failure?
   end
 

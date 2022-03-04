@@ -1,4 +1,3 @@
-require_relative '../manager'
 require_relative '../contracts/manager_contract'
 
 class ManagerValidator
@@ -9,7 +8,7 @@ class ManagerValidator
   def validate
     validates_duplicate_score
     validates_exceeds_collection_count
-    validates_id_and_score
+    validates_ids_and_scores
   end
 
   private
@@ -30,11 +29,11 @@ class ManagerValidator
     @managers.count > 999
   end
 
-  def validates_id_and_score
-    @managers.each do |manager_id, manager_score|
-      result = contract.(id: manager_id, score: manager_score)
-      raise "The managers collection fail with the following: #{result.errors.to_h}" if result.failure?
-    end
+  def validates_ids_and_scores
+    ids = @managers.keys
+    scores = @managers.values
+    result = contract.(ids: ids, scores: scores)
+    raise "The managers collection fail with the following: #{result.errors.to_h}" if result.failure?
   end
 
   def contract

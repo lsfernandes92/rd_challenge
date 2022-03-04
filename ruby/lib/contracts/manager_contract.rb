@@ -2,12 +2,20 @@ require 'dry/validation'
 
 class ManagerContract < Dry::Validation::Contract
   params do
-    required(:id).filled(:integer)
-    required(:score).filled(:integer)
+    optional(:ids).array(:integer)
+    optional(:scores).array(:integer)
   end
 
-  rule(:id) { key.failure('id must be between 1 and 999') if value < 1 }
-  rule(:id) { key.failure('id must be between 1 and 999') if value > 999 }
-  rule(:score) { key.failure('score must be between 1 and 9999') if value < 1 }
-  rule(:score) { key.failure('score must be between 1 and 9999') if value > 9999 }
+  rule(:ids).each { key.failure('id must be between 1 and 999') if id_in_range?(value) }
+  rule(:scores).each { key.failure('score must be between 1 and 9999') if score_in_range?(value) }
+
+  private
+
+  def id_in_range?(value)
+    (value < 1 || value > 999)
+  end
+
+  def score_in_range?(value)
+    (value < 1 || value > 9999)
+  end
 end

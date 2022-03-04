@@ -4,6 +4,7 @@ require 'byebug'
 require_relative '../helpers/score_build_helper'
 require_relative 'manager'
 require_relative 'rate_managers'
+require_relative './validators/manager_validator'
 
 class CustomerSuccessBalancing
   include ScoreBuildHelper
@@ -18,6 +19,7 @@ class CustomerSuccessBalancing
   end
 
   def execute
+    validate_managers
     check_managers_availability
     check_most_rated_manager
   end
@@ -25,6 +27,14 @@ class CustomerSuccessBalancing
   private
 
   def check_most_rated_manager
+    RateManagers.new(check_for_working_managers).most_rated
+  end
+
+  def validate_managers
+    ManagerValidator.new(@managers).validate
+  end
+
+  def check_for_working_managers
     customers_attended = []
     working_managers = []
 
@@ -34,7 +44,7 @@ class CustomerSuccessBalancing
       working_managers << manager
     end
 
-    RateManagers.new(working_managers).most_rated
+    working_managers
   end
 
   def check_managers_availability

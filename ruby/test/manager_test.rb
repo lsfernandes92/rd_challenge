@@ -34,6 +34,6 @@ class ManagerTests < Minitest::Test
   private
 
   def customers
-    customers = sort_by_score(build_scores([90, 20, 70, 40, 60, 10]))
+    @customers ||= sort_by_score(build_scores([90, 20, 70, 40, 60, 10]))
   end
 end

@@ -181,4 +181,14 @@ class CustomerSuccessBalancingTests < Minitest::Test
     exception = assert_raises(RuntimeError) { balancer.execute }
     assert_match /score must be between 1 and 99999/, exception.message
   end
+
+  def test_when_absents_exceeds_limit
+    balancer = CustomerSuccessBalancing.new(
+      build_scores([10, 20, 30, 40]),
+      build_scores([10, 20]),
+      [1, 2, 3]
+    )
+    exception = assert_raises(RuntimeError) { balancer.execute }
+    assert_match /The managers absents is more than expected/, exception.message
+  end
 end

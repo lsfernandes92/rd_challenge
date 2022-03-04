@@ -131,4 +131,54 @@ class CustomerSuccessBalancingTests < Minitest::Test
     exception = assert_raises(RuntimeError) { balancer.execute }
     assert_match /score must be between 1 and 999/, exception.message
   end
+
+  def test_when_customers_input_exceeds_the_count_999999
+    balancer = CustomerSuccessBalancing.new(
+      build_scores([10, 20]),
+      build_scores(Array(1..1000000)),
+      []
+    )
+    exception = assert_raises(RuntimeError) { balancer.execute }
+    assert_match /The customers collection exceeds the limit of 999999 customers/, exception.message
+  end
+
+  def test_customer_id_input_min_limit
+    balancer = CustomerSuccessBalancing.new(
+      build_scores([10, 20]),
+      [{id: 0, score: 2}],
+      []
+    )
+    exception = assert_raises(RuntimeError) { balancer.execute }
+    assert_match /id must be between 1 and 999999/, exception.message
+  end
+
+  def test_customer_id_input_max_limit
+    balancer = CustomerSuccessBalancing.new(
+      build_scores([10, 20]),
+      [{id: 1000000, score: 2}],
+      []
+    )
+    exception = assert_raises(RuntimeError) { balancer.execute }
+    assert_match /id must be between 1 and 999999/, exception.message
+  end
+
+  def test_customer_score_input_min_limit
+    balancer = CustomerSuccessBalancing.new(
+      build_scores([10, 20]),
+      [{id: 1, score: 0}],
+      []
+    )
+    exception = assert_raises(RuntimeError) { balancer.execute }
+    assert_match /score must be between 1 and 99999/, exception.message
+  end
+
+  def test_customer_score_input_max_limit
+    balancer = CustomerSuccessBalancing.new(
+      build_scores([10, 20]),
+      [{id: 1, score: 100000}],
+      []
+    )
+    exception = assert_raises(RuntimeError) { balancer.execute }
+    assert_match /score must be between 1 and 99999/, exception.message
+  end
 end

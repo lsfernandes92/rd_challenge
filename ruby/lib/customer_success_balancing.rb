@@ -5,6 +5,7 @@ require_relative '../helpers/score_build_helper'
 require_relative 'manager'
 require_relative 'rate_managers'
 require_relative './validators/manager_validator'
+require_relative './validators/customer_validator'
 
 class CustomerSuccessBalancing
   include ScoreBuildHelper
@@ -20,18 +21,23 @@ class CustomerSuccessBalancing
 
   def execute
     validate_managers
+    validate_customers
     check_managers_availability
     check_most_rated_manager
   end
 
   private
 
-  def check_most_rated_manager
-    RateManagers.new(check_for_working_managers).most_rated
-  end
-
   def validate_managers
     ManagerValidator.new(@managers).validate
+  end
+
+  def validate_customers
+    CustomerValidator.new(@customers).validate
+  end
+
+  def check_most_rated_manager
+    RateManagers.new(check_for_working_managers).most_rated
   end
 
   def check_for_working_managers

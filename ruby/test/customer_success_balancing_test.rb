@@ -47,7 +47,7 @@ class CustomerSuccessBalancingTests < Minitest::Test
 
   def test_scenario_five
     balancer = CustomerSuccessBalancing.new(
-      build_scores([100, 2, 3, 3, 4, 5]),
+      build_scores([100, 2, 3, 4, 5]),
       build_scores([10, 10, 10, 20, 20, 30, 30, 30, 20, 60]),
       []
     )

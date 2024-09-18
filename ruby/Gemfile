@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+
+ruby file: '.ruby-version'
+
+group :test do
+ # Provides a complete suite of testing facilities
+ gem 'minitest'
+ # Create customizable MiniTest output formats.
+ gem 'minitest-reporters'
+end

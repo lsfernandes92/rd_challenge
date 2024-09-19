@@ -1,8 +1,8 @@
 require_relative '../test_helper'
 require_relative '../../src/lib/manager'
 
-class ManagerTests < Minitest::Test
-  include BuildScoresHelper
+class ManagerTest < Minitest::Test
+  include ScoresBuildHelper
 
   def setup
     @manager = Manager.new(60)
@@ -23,7 +23,7 @@ class ManagerTests < Minitest::Test
     assert_equal 4, @manager.customers_attended.count
   end
 
-  def test_when_manager_has_no_customers_to_attend
+  def test_when_manager_has_no_customers_to_attend__returns_empty_customers_attended
     customers = sort_by_score(build_scores([61, 70, 100]))
 
     @manager.attend_customers(customers)
@@ -32,7 +32,7 @@ class ManagerTests < Minitest::Test
     assert_equal 0, @manager.customers_attended.count
   end
 
-  def test_when_passing_an_empty_array_of_customers
+  def test_when_passing_an_empty_array_of_customers__returns_empty_customers_attended
     customers = build_scores([])
 
     @manager.attend_customers(customers)

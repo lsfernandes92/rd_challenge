@@ -2,8 +2,8 @@ require_relative '../test_helper'
 require_relative '../../src/lib/customer_success_balancing'
 require 'timeout'
 
-class CustomerSuccessBalancingTests < Minitest::Test
-  include BuildScoresHelper
+class CustomerSuccessBalancingTest < Minitest::Test
+  include ScoresBuildHelper
 
   def test_scenario_one
     balancer = CustomerSuccessBalancing.new(

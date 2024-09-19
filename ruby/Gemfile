@@ -8,3 +8,8 @@ group :test do
  # Create customizable MiniTest output formats.
  gem 'minitest-reporters'
 end
+
+group :development, :test do
+  # Debugging in Ruby
+  gem 'byebug'
+end

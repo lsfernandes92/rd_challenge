@@ -1,5 +1,3 @@
-require 'byebug'
-
 class CustomerSuccessBalancing
   DRAW_CASE_VALUE = 0
 

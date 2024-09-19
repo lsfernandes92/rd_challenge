@@ -1,6 +1,5 @@
-require_relative 'test_helper'
-require_relative '../src/lib/customer_success_balancing'
-require 'minitest/autorun'
+require_relative '../test_helper'
+require_relative '../../src/lib/customer_success_balancing'
 require 'timeout'
 
 class CustomerSuccessBalancingTests < Minitest::Test

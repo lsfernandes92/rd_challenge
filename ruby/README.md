@@ -42,13 +42,19 @@ $ cd rd_challenge/ruby/
 $ git checkout complete-solution
 ```
 
+## Instalando as dependências
+
+Ainda dentro da pasta `/ruby` rode o seguinte comando para instalar as dependências do projeto:
+
+```shell
+$ bundle install
+```
+
 ## Como rodar os testes
 
 Exemplo de saída:
 
-
 ## Observações
-
 
 ## Melhorias futuas
 

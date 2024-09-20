@@ -60,4 +60,6 @@ Exemplo de saída:
 
 ## Referencias
 
-* [RubyGems - site onde procurei as gems usadas nesse projeto](https://rubygems.org/)
+* [RubyGems](https://rubygems.org/)
+* [Endless method - A quick intro](https://allaboutcoding.ghinda.com/endless-method-a-quick-intro)
+* [Active Record Validations do Rails guides](https://guides.rubyonrails.org/active_record_validations.html#custom-methods)

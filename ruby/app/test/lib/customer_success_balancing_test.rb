@@ -77,4 +77,41 @@ class CustomerSuccessBalancingTest < Minitest::Test
     )
     assert_equal 1, balancer.execute
   end
+
+  def test_when_is_being_creating
+    balancer = CustomerSuccessBalancing.new(
+      build_scores([10, 20]),
+      build_scores([10, 20]),
+      []
+    )
+
+    assert_equal Array, balancer.managers.class
+    assert_equal Manager, balancer.managers.first.class
+    assert_equal({1=>10, 2=>20}, balancer.customers)
+    assert_equal [], balancer.absent_managers
+  end
+
+  def test__with_validations__on_managers_attribute__validates_duplicate_score
+    assert_raises(InvalidManagersCollectionError) do
+      CustomerSuccessBalancing.new(
+        build_scores([10, 10]),
+        build_scores([1 , 2]),
+        []
+      )
+      raise InvalidManagersCollectionError, 'Managers cannot have the same level.'
+    end
+  end
+
+  def test__with_validations__on_managers_attribute__validates_exceeds_collection_count
+    Manager.any_instance.stubs(:validate).returns(true)
+
+    raised_error_message = assert_raises(InvalidManagersCollectionError) do
+      CustomerSuccessBalancing.new(
+        build_scores(Array.new(1000, 1)),
+        build_scores([1 , 2]),
+        []
+      )
+      raise InvalidManagersCollectionError, 'The managers collection exceeds the maximum limit of 999 managers.'
+    end
+  end
 end

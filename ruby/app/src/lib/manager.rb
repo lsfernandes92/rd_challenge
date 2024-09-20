@@ -1,10 +1,17 @@
+require_relative '../validators/manager_validator'
+
 class Manager
+  include ActiveModel::Validations
+
+  validates_with ManagerValidator
+
   attr_reader :id, :score, :customers_attended
 
   def initialize(id, score)
     @id = id
     @score = score
     @customers_attended = []
+    validate
   end
 
   def attend_customers(customers)

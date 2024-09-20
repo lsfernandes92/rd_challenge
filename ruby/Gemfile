@@ -2,11 +2,16 @@ source 'https://rubygems.org'
 
 ruby file: '.ruby-version'
 
+# A toolkit for building modeling frameworks like Active Record
+gem 'activemodel'
+
 group :test do
  # Provides a complete suite of testing facilities
  gem 'minitest'
  # Create customizable MiniTest output formats.
  gem 'minitest-reporters'
+#  Mocking and stubbing library with JMock/SchMock syntax
+ gem 'mocha'
 end
 
 group :development, :test do

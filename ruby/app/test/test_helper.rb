@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
+require 'mocha/minitest'
 require_relative '../src/helpers/scores_build_helper'
 require_relative '../src/concerns/sortable'
 

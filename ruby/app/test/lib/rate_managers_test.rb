@@ -30,13 +30,13 @@ class RateManagersTest < Minitest::Test
     assert_equal @manager, rate_managers.managers.first(2).last
   end
 
-  def test_when_has_no_manager__most_rated_should_be_0
+  def test__when_has_no_manager__most_rated_should_be_0
     rate_managers = RateManagers.new([])
 
     assert_equal 0, rate_managers.most_rated
   end
 
-  def test_when_has_only_one_manager__most_rated_should_be_itself
+  def test__when_has_only_one_manager__most_rated_should_be_itself
     customers = sort_by_score(build_scores([20]))
 
     @manager.attend_customers(customers)
@@ -46,13 +46,13 @@ class RateManagersTest < Minitest::Test
     assert_equal @manager.id, rate_managers.most_rated
   end
 
-  def test_when_has_only_one_manager_without_attended_customers__most_rated_should_be_0
+  def test__when_has_only_one_manager_without_attended_customers__most_rated_should_be_0
     rate_managers = RateManagers.new([@manager])
 
     assert_equal 0, rate_managers.most_rated
   end
 
-  def test_when_two_managers_has_the_same_customers_attended_count__most_rated_should_be_0
+  def test__when_two_managers_has_the_same_customers_attended_count__most_rated_should_be_0
     customers = sort_by_score(build_scores([10, 20]))
     another_manager = Manager.new(2, 60)
 
@@ -64,7 +64,7 @@ class RateManagersTest < Minitest::Test
     assert_equal 0, rate_managers.most_rated
   end
 
-  def test_when_two_managers_has_different_attended_customers_count__returns_most_rated_manager_id
+  def test__when_two_managers_has_different_attended_customers_count__returns_most_rated_manager_id
     customers = sort_by_score(build_scores([10, 21, 31]))
     another_manager = Manager.new(2, 60)
 

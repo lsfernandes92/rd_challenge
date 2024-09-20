@@ -1,10 +1,16 @@
 require_relative '../concerns/sortable'
+require_relative '../validators/managers_collection_validator'
 require_relative 'manager'
 require_relative 'rate_managers'
 
 class CustomerSuccessBalancing
   include Sortable
-  
+  include ActiveModel::Validations
+
+  attr_reader :managers, :customers, :absent_managers
+
+  validates :managers, managers_collection: true
+
   def initialize(managers, customers, absent_managers)
     @managers = set_managers(managers)
     @customers = sort_by_score(customers)
@@ -12,6 +18,7 @@ class CustomerSuccessBalancing
   end
 
   def execute
+    validate
     check_managers_availability
     check_most_rated_manager
   end

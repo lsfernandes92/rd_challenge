@@ -1,10 +1,8 @@
 class Manager
-  @@id_counter = 0
-
   attr_reader :id, :score, :customers_attended
 
-  def initialize(score)
-    @id = generate_id
+  def initialize(id, score)
+    @id = id
     @score = score
     @customers_attended = []
   end
@@ -23,10 +21,5 @@ class Manager
 
   def attend_customer?(customer_score)
     @score >= customer_score
-  end
-
-  def generate_id
-    @@id_counter += 1
-    @@id_counter
   end
 end

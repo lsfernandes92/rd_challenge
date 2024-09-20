@@ -3,13 +3,14 @@ require_relative '../../src/lib/manager'
 
 class ManagerTest < Minitest::Test
   include ScoresBuildHelper
+  include Sortable
 
   def setup
-    @manager = Manager.new(60)
+    @manager = Manager.new(1, 60)
   end
 
   def test_when_is_being_creating
-    assert_equal Integer, @manager.id.class
+    assert_equal 1, @manager.id
     assert_equal 60, @manager.score
     assert_equal [], @manager.customers_attended
   end

@@ -102,7 +102,7 @@ class CustomerSuccessBalancingTest < Minitest::Test
     end
     
     assert_match(
-      /Managers cannot have the same level./,
+      'Managers cannot have the same level.',
       exception.message
     )
   end
@@ -119,7 +119,7 @@ class CustomerSuccessBalancingTest < Minitest::Test
     end
 
     assert_match(
-      /The managers collection exceeds the maximum limit of 999 managers./,
+      'The managers collection exceeds the maximum limit of 999 managers.',
       exception.message
     )
   end
@@ -136,7 +136,22 @@ class CustomerSuccessBalancingTest < Minitest::Test
     end
   
     assert_match(
-      /The customers collection exceeds the limit of 999999 customers./,
+      'The customers collection exceeds the limit of 999999 customers.',
+      exception.message
+    )
+  end
+
+  def test__with_validations__on_absence_customers_attribute__validates_absence_limit
+    exception = assert_raises(InvalidAbsenceManagersError) do
+      CustomerSuccessBalancing.new(
+        build_scores([10, 20, 30, 40]),
+        build_scores([1 , 2]),
+        [1, 2, 3]
+      ).execute
+    end
+
+    assert_match(
+      'The managers absents is more than expected',
       exception.message
     )
   end

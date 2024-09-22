@@ -1,6 +1,7 @@
 require_relative '../concerns/sortable'
 require_relative '../validators/managers_collection_validator'
 require_relative '../validators/customers_collection_validator'
+require_relative '../validators/absence_managers_validator'
 require_relative 'manager'
 require_relative 'customer'
 require_relative 'rate_managers'
@@ -10,6 +11,8 @@ class CustomerSuccessBalancing
   include ActiveModel::Validations
 
   attr_reader :managers, :customers, :absent_managers
+
+  validates_with AbsenceManagersValidator
 
   validates :managers, managers_collection: true
   validates :customers, customers_collection: true

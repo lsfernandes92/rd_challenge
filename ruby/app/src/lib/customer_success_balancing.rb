@@ -1,6 +1,7 @@
 require_relative '../concerns/sortable'
 require_relative '../validators/managers_collection_validator'
 require_relative 'manager'
+require_relative 'customer'
 require_relative 'rate_managers'
 
 class CustomerSuccessBalancing
@@ -13,7 +14,7 @@ class CustomerSuccessBalancing
 
   def initialize(managers, customers, absent_managers)
     @managers = set_managers(managers)
-    @customers = sort_by_score(customers)
+    @customers = set_customers(customers)
     @absent_managers = absent_managers
   end
 
@@ -33,9 +34,23 @@ class CustomerSuccessBalancing
     end
   end
 
+  def set_customers(customers)
+    sorted_customers = sort_by_score(customers)
+
+    sorted_customers.map do |id, score|
+      Customer.new(id, score)
+    end
+  end
+
   def check_managers_availability
     @managers = @managers.reject do |manager|
       @absent_managers.include?(manager.id)
+    end
+  end
+
+  def available_customers(already_attended_customers_id)
+    @customers.reject do |customer|
+      already_attended_customers_id.include?(customer.id)
     end
   end
 
@@ -44,11 +59,11 @@ class CustomerSuccessBalancing
   end
 
   def working_managers
-    customers_attended = []
+    already_attended_customers_id = []
     working_managers = []
 
     @managers.each do |manager|
-      customers_attended += manager.attend_customers(@customers.except(*customers_attended))
+      already_attended_customers_id += manager.attend_customers(available_customers(already_attended_customers_id))
       working_managers << manager
     end
 

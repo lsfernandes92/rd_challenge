@@ -1,10 +1,12 @@
 require_relative '../test_helper'
 require_relative '../../src/lib/manager'
+require_relative '../../src/lib/customer'
 require_relative '../../src/lib/rate_managers'
+require_relative '../helpers/set_customers_helper'
 
 class RateManagersTest < Minitest::Test
   include ScoresBuildHelper
-  include Sortable
+  include SetCustomersHelper
 
   def setup
     @manager = Manager.new(1, 20)
@@ -18,7 +20,7 @@ class RateManagersTest < Minitest::Test
   end
 
   def test_managers_should_be_sorted_by_attented_customers
-    customers = sort_by_score(build_scores([90, 20, 70, 40, 60, 10]))
+    customers = set_customers(build_scores([90, 20, 70, 40, 60, 10]))
     manager_with_most_clients = Manager.new(2, 60)
 
     manager_with_most_clients.attend_customers(customers)
@@ -37,7 +39,7 @@ class RateManagersTest < Minitest::Test
   end
 
   def test__when_has_only_one_manager__most_rated_should_be_itself
-    customers = sort_by_score(build_scores([20]))
+    customers = set_customers(build_scores([20]))
 
     @manager.attend_customers(customers)
 
@@ -53,7 +55,7 @@ class RateManagersTest < Minitest::Test
   end
 
   def test__when_two_managers_has_the_same_customers_attended_count__most_rated_should_be_0
-    customers = sort_by_score(build_scores([10, 20]))
+    customers = set_customers(build_scores([10, 20]))
     another_manager = Manager.new(2, 60)
 
     @manager.attend_customers(customers)
@@ -65,7 +67,7 @@ class RateManagersTest < Minitest::Test
   end
 
   def test__when_two_managers_has_different_attended_customers_count__returns_most_rated_manager_id
-    customers = sort_by_score(build_scores([10, 21, 31]))
+    customers = set_customers(build_scores([10, 21, 31]))
     another_manager = Manager.new(2, 60)
 
     @manager.attend_customers(customers)

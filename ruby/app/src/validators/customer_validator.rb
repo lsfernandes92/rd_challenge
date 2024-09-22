@@ -1,6 +1,6 @@
 require 'active_model'
 
-class ManagerValidator < ActiveModel::Validator
+class CustomerValidator < ActiveModel::Validator
   def validate(record)
     @record = record
 
@@ -14,29 +14,29 @@ class ManagerValidator < ActiveModel::Validator
 
   def validate_id_type
     unless @record.id.is_a?(Integer)
-      raise(InvalidManagerError, 'Id must be an Integer.')
+      raise(InvalidCustomerError, 'Id must be an Integer.')
     end
   end
 
   def validate_score_type
     unless @record.score.is_a?(Integer)
-      raise(InvalidManagerError, 'Score must be an Integer.')
+      raise(InvalidCustomerError, 'Score must be an Integer.')
     end
   end
 
   def validate_id_in_range
     unless id_in_range?(@record.id)
-      raise(InvalidManagerError, 'Id must be between 1 and 999.')
+      raise(InvalidCustomerError, 'Id must be between 1 and 999999.')
     end
   end
-  def id_in_range?(value) = (1..999).cover?(value)
+  def id_in_range?(value) = (1..999999).cover?(value)
 
   def validate_score_in_range
     unless score_in_range?(@record.score)
-      raise(InvalidManagerError, 'Score must be between 1 and 9999.')
+      raise(InvalidCustomerError, 'Score must be between 1 and 99999.')
     end
   end
   def score_in_range?(value) = (1..9999).cover?(value)
 end
 
-class InvalidManagerError < StandardError; end
+class InvalidCustomerError < StandardError; end

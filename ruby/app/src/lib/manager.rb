@@ -15,9 +15,9 @@ class Manager
   end
 
   def attend_customers(customers)
-    customers.each do |customer_id, customer_score|
-      if attend_customer?(customer_score)
-        @customers_attended << customer_id
+    customers.each do |customer|
+      if attend_customer?(customer.score)
+        @customers_attended << customer.id
       end
     end
 

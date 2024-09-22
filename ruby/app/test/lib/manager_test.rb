@@ -1,8 +1,10 @@
 require_relative '../test_helper'
 require_relative '../../src/lib/manager'
+require_relative '../../src/lib/customer'
 
 class ManagerTest < Minitest::Test
   include ScoresBuildHelper
+  include SetCustomersHelper
   include Sortable
 
   def setup
@@ -16,35 +18,43 @@ class ManagerTest < Minitest::Test
   end
 
   def test__with_validations__on_id_attribute__validates_type
-    assert_raises(InvalidManagerError) do
-      Manager.new('foo', 10)
-      raise InvalidManagerError, 'Id must be an Integer.'
-    end
+    exception = assert_raises(InvalidManagerError) { Manager.new('foo', 10) }
+    
+    assert_match(/Id must be an Integer./, exception.message)
   end
 
-  def test__with_validations__on_id_attribute__validates_range
-    assert_raises(InvalidManagerError) do
-      Manager.new(0, 10)
-      raise InvalidManagerError, 'Id must be between 1 and 999.'
-    end
+  def test__with_validations__on_id_attribute__validates_min_range
+    exception = assert_raises(InvalidManagerError) { Manager.new(0, 10) }
+    
+    assert_match(/Id must be between 1 and 999./, exception.message)
+  end
+
+  def test__with_validations__on_id_attribute__validates_max_range
+    exception = assert_raises(InvalidManagerError) { Manager.new(1000, 10) }
+    
+    assert_match(/Id must be between 1 and 999./, exception.message)
   end
 
   def test__with_validations__on_score_attribute__validates_type
-    assert_raises(InvalidManagerError) do
-      Manager.new(1, 'foo')
-      raise InvalidManagerError, 'Score must be an Integer.'
-    end
+    exception = assert_raises(InvalidManagerError) { Manager.new(0, 'foo') }
+    
+    assert_match(/Score must be an Integer./, exception.message)
   end
 
-  def test__with_validations__on_score_attribute__validates_range
-    assert_raises(InvalidManagerError) do
-      Manager.new(1, 0)
-      raise InvalidManagerError, 'Score must be between 1 and 999.'
-    end
+  def test__with_validations__on_score_attribute__validates_min_range
+    exception = assert_raises(InvalidManagerError) { Manager.new(1, 0) }
+    
+    assert_match(/Score must be between 1 and 999./, exception.message)
+  end
+
+  def test__with_validations__on_score_attribute__validates_max_range
+    exception = assert_raises(InvalidManagerError) { Manager.new(1, 10000) }
+    
+    assert_match(/Score must be between 1 and 999./, exception.message)
   end
 
   def test_manager_should_attend_only_customers_within_his_score
-    customers = sort_by_score(build_scores([90, 20, 70, 40, 60, 10]))
+    customers = set_customers(build_scores([90, 20, 70, 40, 60, 10]))
 
     @manager.attend_customers(customers)
 
@@ -53,7 +63,7 @@ class ManagerTest < Minitest::Test
   end
 
   def test__when_manager_has_no_customers_to_attend__returns_empty_customers_attended
-    customers = sort_by_score(build_scores([61, 70, 100]))
+    customers = set_customers(build_scores([61, 70, 100]))
 
     @manager.attend_customers(customers)
 
@@ -62,7 +72,7 @@ class ManagerTest < Minitest::Test
   end
 
   def test__when_passing_an_empty_array_of_customers__returns_empty_customers_attended
-    customers = build_scores([])
+    customers = set_customers(build_scores([]))
 
     @manager.attend_customers(customers)
 

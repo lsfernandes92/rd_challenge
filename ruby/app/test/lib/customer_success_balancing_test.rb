@@ -123,4 +123,21 @@ class CustomerSuccessBalancingTest < Minitest::Test
       exception.message
     )
   end
+
+  def test__with_validations__on_customers_attribute__validates_exceed_collection_count
+    Customer.any_instance.stubs(:validate).returns(true)
+  
+    exception = assert_raises(InvalidCustomersCollectionError) do
+      CustomerSuccessBalancing.new(
+        build_scores([10, 20]),
+        build_scores(Array.new(1000000) { |i| i + 1 }),
+        []
+      ).execute
+    end
+  
+    assert_match(
+      /The customers collection exceeds the limit of 999999 customers./,
+      exception.message
+    )
+  end
 end

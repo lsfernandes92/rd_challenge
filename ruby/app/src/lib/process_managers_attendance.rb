@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProcessManagersAttendance
   attr_reader :managers, :customers
 

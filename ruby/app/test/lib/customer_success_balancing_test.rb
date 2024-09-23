@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 require_relative '../../src/lib/customer_success_balancing'
 require 'timeout'
@@ -26,7 +28,7 @@ class CustomerSuccessBalancingTest < Minitest::Test
   def test_scenario_three
     balancer = CustomerSuccessBalancing.new(
       build_scores(Array(1..999)),
-      build_scores(Array.new(10000, 998)),
+      build_scores(Array.new(10_000, 998)),
       [999]
     )
     result = Timeout.timeout(1.0) { balancer.execute }
@@ -96,11 +98,11 @@ class CustomerSuccessBalancingTest < Minitest::Test
     exception = assert_raises(InvalidManagersCollectionError) do
       CustomerSuccessBalancing.new(
         build_scores([10, 10]),
-        build_scores([1 , 2]),
+        build_scores([1, 2]),
         []
       ).execute
     end
-    
+
     assert_match(
       'Managers cannot have the same level.',
       exception.message
@@ -113,7 +115,7 @@ class CustomerSuccessBalancingTest < Minitest::Test
     exception = assert_raises(InvalidManagersCollectionError) do
       CustomerSuccessBalancing.new(
         build_scores(Array.new(1000) { |i| i + 1 }),
-        build_scores([1 , 2]),
+        build_scores([1, 2]),
         []
       ).execute
     end
@@ -126,15 +128,15 @@ class CustomerSuccessBalancingTest < Minitest::Test
 
   def test__with_validations__on_customers_attribute__validates_exceed_collection_count
     Customer.any_instance.stubs(:validate).returns(true)
-  
+
     exception = assert_raises(InvalidCustomersCollectionError) do
       CustomerSuccessBalancing.new(
         build_scores([10, 20]),
-        build_scores(Array.new(1000000) { |i| i + 1 }),
+        build_scores(Array.new(1_000_000) { |i| i + 1 }),
         []
       ).execute
     end
-  
+
     assert_match(
       'The customers collection exceeds the limit of 999999 customers.',
       exception.message
@@ -145,7 +147,7 @@ class CustomerSuccessBalancingTest < Minitest::Test
     exception = assert_raises(InvalidAbsenceManagersError) do
       CustomerSuccessBalancing.new(
         build_scores([10, 20, 30, 40]),
-        build_scores([1 , 2]),
+        build_scores([1, 2]),
         [1, 2, 3]
       ).execute
     end

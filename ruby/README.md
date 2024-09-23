@@ -63,3 +63,4 @@ Exemplo de saída:
 * [RubyGems](https://rubygems.org/)
 * [Endless method - A quick intro](https://allaboutcoding.ghinda.com/endless-method-a-quick-intro)
 * [Active Record Validations do Rails guides](https://guides.rubyonrails.org/active_record_validations.html#custom-methods)
+* [Rubocop gem](https://rubocop.org/)

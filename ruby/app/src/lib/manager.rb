@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../validators/manager_validator'
 
 class Manager
@@ -16,9 +18,7 @@ class Manager
 
   def attend_customers(customers)
     customers.each do |customer|
-      if attend_customer?(customer.score)
-        @customers_attended_id << customer.id
-      end
+      @customers_attended_id << customer.id if attend_customer?(customer.score)
     end
 
     @customers_attended_id

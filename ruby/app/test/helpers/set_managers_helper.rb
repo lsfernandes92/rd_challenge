@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../src/concerns/sortable'
 require_relative '../../src/lib/manager'
 

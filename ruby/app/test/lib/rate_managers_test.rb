@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 require_relative '../../src/lib/manager'
 require_relative '../../src/lib/customer'
@@ -13,7 +15,7 @@ class RateManagersTest < Minitest::Test
   end
 
   def test_when_is_being_creating
-    rate_managers = RateManagers.new([@manager]);
+    rate_managers = RateManagers.new([@manager])
 
     assert_equal 1, rate_managers.managers.count
     assert_equal @manager, rate_managers.managers.first

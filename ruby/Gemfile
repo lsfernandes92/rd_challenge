@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 ruby file: '.ruby-version'
@@ -5,16 +7,21 @@ ruby file: '.ruby-version'
 # A toolkit for building modeling frameworks like Active Record
 gem 'activemodel'
 
-group :test do
- # Provides a complete suite of testing facilities
- gem 'minitest'
- # Create customizable MiniTest output formats.
- gem 'minitest-reporters'
-#  Mocking and stubbing library with JMock/SchMock syntax
- gem 'mocha'
-end
-
 group :development, :test do
   # Debugging in Ruby
   gem 'byebug'
+end
+
+group :development do
+  # A Ruby static code analyzer and formatter, based on the community Ruby style guide.
+  gem 'rubocop'
+end
+
+group :test do
+  # Provides a complete suite of testing facilities
+  gem 'minitest'
+  # Create customizable MiniTest output formats.
+  gem 'minitest-reporters'
+  #  Mocking and stubbing library with JMock/SchMock syntax
+  gem 'mocha'
 end

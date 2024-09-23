@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../test_helper'
 require_relative '../../src/lib/manager'
 require_relative '../../src/lib/customer'
@@ -19,37 +21,37 @@ class ManagerTest < Minitest::Test
 
   def test__with_validations__on_id_attribute__validates_type
     exception = assert_raises(InvalidManagerError) { Manager.new('foo', 10) }
-    
+
     assert_match('Id must be an Integer.', exception.message)
   end
 
   def test__with_validations__on_id_attribute__validates_min_range
     exception = assert_raises(InvalidManagerError) { Manager.new(0, 10) }
-    
+
     assert_match('Id must be between 1 and 999.', exception.message)
   end
 
   def test__with_validations__on_id_attribute__validates_max_range
     exception = assert_raises(InvalidManagerError) { Manager.new(1000, 10) }
-    
+
     assert_match('Id must be between 1 and 999.', exception.message)
   end
 
   def test__with_validations__on_score_attribute__validates_type
     exception = assert_raises(InvalidManagerError) { Manager.new(0, 'foo') }
-    
+
     assert_match('Score must be an Integer.', exception.message)
   end
 
   def test__with_validations__on_score_attribute__validates_min_range
     exception = assert_raises(InvalidManagerError) { Manager.new(1, 0) }
-    
+
     assert_match('Score must be between 1 and 9999.', exception.message)
   end
 
   def test__with_validations__on_score_attribute__validates_max_range
-    exception = assert_raises(InvalidManagerError) { Manager.new(1, 10000) }
-    
+    exception = assert_raises(InvalidManagerError) { Manager.new(1, 10_000) }
+
     assert_match('Score must be between 1 and 9999.', exception.message)
   end
 

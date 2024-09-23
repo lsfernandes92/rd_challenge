@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_model'
 
 class AbsenceManagersValidator < ActiveModel::Validator
@@ -10,10 +12,11 @@ class AbsenceManagersValidator < ActiveModel::Validator
   private
 
   def validate_absents
-    if absence_limit?
-      raise(InvalidAbsenceManagersError, 'The managers absents is more than expected.')
-    end
+    return unless absence_limit?
+
+    raise(InvalidAbsenceManagersError, 'The managers absents is more than expected.')
   end
+
   def absence_limit? = (@record.absent_managers.count > (@record.managers.count / 2))
 end
 

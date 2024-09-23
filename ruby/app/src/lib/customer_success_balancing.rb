@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../concerns/sortable'
 require_relative '../validators/managers_collection_validator'
 require_relative '../validators/customers_collection_validator'
@@ -55,6 +57,7 @@ class CustomerSuccessBalancing
   end
 
   def check_most_rated_manager = RateManagers.new(process_managers_attendance).most_rated
+
   def process_managers_attendance
     ProcessManagersAttendance.new(
       @managers,

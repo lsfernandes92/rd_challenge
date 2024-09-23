@@ -5,6 +5,7 @@ require_relative '../validators/absence_managers_validator'
 require_relative 'manager'
 require_relative 'customer'
 require_relative 'rate_managers'
+require_relative 'process_managers_attendance'
 
 class CustomerSuccessBalancing
   include Sortable
@@ -53,25 +54,11 @@ class CustomerSuccessBalancing
     end
   end
 
-  def available_customers(already_attended_customers_id)
-    @customers.reject do |customer|
-      already_attended_customers_id.include?(customer.id)
-    end
-  end
-
-  def check_most_rated_manager
-    RateManagers.new(working_managers).most_rated
-  end
-
-  def working_managers
-    already_attended_customers_id = []
-    working_managers = []
-
-    @managers.each do |manager|
-      already_attended_customers_id += manager.attend_customers(available_customers(already_attended_customers_id))
-      working_managers << manager
-    end
-
-    working_managers
+  def check_most_rated_manager = RateManagers.new(process_managers_attendance).most_rated
+  def process_managers_attendance
+    ProcessManagersAttendance.new(
+      @managers,
+      @customers
+    ).process_managers_attendance
   end
 end

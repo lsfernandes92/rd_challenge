@@ -25,7 +25,6 @@ class RateManagers
   def rate_managers(manager1, manager2)
     draw_case?(manager1, manager2) ? DRAW_VALUE : manager1.id
   end
-
   def draw_case?(manager1, manager2) = manager1.customers_attended_id.count == manager2.customers_attended_id.count
 
   def first_manager = @managers.first

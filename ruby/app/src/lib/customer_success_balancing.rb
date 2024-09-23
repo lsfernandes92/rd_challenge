@@ -57,7 +57,6 @@ class CustomerSuccessBalancing
   end
 
   def check_most_rated_manager = RateManagers.new(process_managers_attendance).most_rated
-
   def process_managers_attendance
     ProcessManagersAttendance.new(
       @managers,

@@ -16,7 +16,6 @@ class CustomersCollectionValidator < ActiveModel::EachValidator
 
     raise(InvalidCustomersCollectionError, 'The customers collection exceeds the limit of 999999 customers.')
   end
-
   def exceeds_collection_count? = @record.customers.count > 999_999
 end
 

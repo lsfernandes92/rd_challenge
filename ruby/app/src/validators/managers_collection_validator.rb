@@ -17,7 +17,6 @@ class ManagersCollectionValidator < ActiveModel::EachValidator
 
     raise(InvalidManagersCollectionError, 'Managers cannot have the same level.')
   end
-
   def has_duplicate_score? = @record.managers.map(&:score).uniq != @record.managers.map(&:score)
 
   def validates_exceeds_collection_count
@@ -25,7 +24,6 @@ class ManagersCollectionValidator < ActiveModel::EachValidator
 
     raise(InvalidManagersCollectionError, 'The managers collection exceeds the maximum limit of 999 managers.')
   end
-
   def exceeds_collection_count? = @record.managers.count > 999
 end
 

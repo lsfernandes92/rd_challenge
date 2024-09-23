@@ -31,7 +31,6 @@ class CustomerValidator < ActiveModel::Validator
 
     raise(InvalidCustomerError, 'Id must be between 1 and 999999.')
   end
-
   def id_in_range?(value) = (1..999_999).cover?(value)
 
   def validate_score_in_range
@@ -39,7 +38,6 @@ class CustomerValidator < ActiveModel::Validator
 
     raise(InvalidCustomerError, 'Score must be between 1 and 99999.')
   end
-
   def score_in_range?(value) = (1..9999).cover?(value)
 end
 

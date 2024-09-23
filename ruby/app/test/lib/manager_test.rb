@@ -14,7 +14,7 @@ class ManagerTest < Minitest::Test
   def test_when_is_being_creating
     assert_equal 1, @manager.id
     assert_equal 60, @manager.score
-    assert_equal [], @manager.customers_attended
+    assert_equal [], @manager.customers_attended_id
   end
 
   def test__with_validations__on_id_attribute__validates_type
@@ -58,25 +58,25 @@ class ManagerTest < Minitest::Test
 
     @manager.attend_customers(customers)
 
-    assert_equal [2, 4, 5, 6], @manager.customers_attended.sort
-    assert_equal 4, @manager.customers_attended.count
+    assert_equal [2, 4, 5, 6], @manager.customers_attended_id.sort
+    assert_equal 4, @manager.customers_attended_id.count
   end
 
-  def test__when_manager_has_no_customers_to_attend__returns_empty_customers_attended
+  def test__when_manager_has_no_customers_to_attend__returns_empty_customers_attended_id
     customers = set_customers(build_scores([61, 70, 100]))
 
     @manager.attend_customers(customers)
 
-    assert_equal [], @manager.customers_attended
-    assert_equal 0, @manager.customers_attended.count
+    assert_equal [], @manager.customers_attended_id
+    assert_equal 0, @manager.customers_attended_id.count
   end
 
-  def test__when_passing_an_empty_array_of_customers__returns_empty_customers_attended
+  def test__when_passing_an_empty_array_of_customers__returns_empty_customers_attended_id
     customers = set_customers(build_scores([]))
 
     @manager.attend_customers(customers)
 
-    assert_equal [], @manager.customers_attended
-    assert_equal 0, @manager.customers_attended.count
+    assert_equal [], @manager.customers_attended_id
+    assert_equal 0, @manager.customers_attended_id.count
   end
 end

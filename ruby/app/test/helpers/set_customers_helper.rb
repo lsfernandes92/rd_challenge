@@ -1,4 +1,5 @@
 require_relative '../../src/concerns/sortable'
+require_relative '../../src/lib/customer'
 
 module SetCustomersHelper
   include Sortable

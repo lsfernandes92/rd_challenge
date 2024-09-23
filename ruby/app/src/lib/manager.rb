@@ -5,28 +5,26 @@ class Manager
 
   validates_with ManagerValidator
 
-  attr_reader :id, :score, :customers_attended
+  attr_reader :id, :score, :customers_attended_id
 
   def initialize(id, score)
     @id = id
     @score = score
-    @customers_attended = []
+    @customers_attended_id = []
     validate
   end
 
   def attend_customers(customers)
     customers.each do |customer|
       if attend_customer?(customer.score)
-        @customers_attended << customer.id
+        @customers_attended_id << customer.id
       end
     end
 
-    @customers_attended
+    @customers_attended_id
   end
 
   private
 
-  def attend_customer?(customer_score)
-    @score >= customer_score
-  end
+  def attend_customer?(customer_score) = @score >= customer_score
 end
